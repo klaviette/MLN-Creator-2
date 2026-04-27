@@ -1,0 +1,55 @@
+Layer itlab_small-64Movies_same_movie_rating.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):1.14
+	Number of Node:64
+	Number of Edge:253
+	Number of Connected Component:8
+
+Layer itlab_small-64Movies_similar_movie_rating.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):1.0
+	Number of Node:64
+	Number of Edge:0
+	Number of Connected Component:0
+
+Layer itlab_small-64Movies_same_movie_year.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):1.56
+	Number of Node:64
+	Number of Edge:116
+	Number of Connected Component:15
+
+Layer itlab_small-64Movies_movies_in_a_5year_period.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):1.02
+	Number of Node:64
+	Number of Edge:115
+	Number of Connected Component:3
+
+Layer itlab_small-64Movies_similar_movie_genre.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):1.0
+	Number of Node:64
+	Number of Edge:158
+	Number of Connected Component:12
+
+Layer itlab_small-64Movies_movies_in_same_decade.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):1.08
+	Number of Node:64
+	Number of Edge:656
+	Number of Connected Component:5
+
+Layer Generation is Successful.

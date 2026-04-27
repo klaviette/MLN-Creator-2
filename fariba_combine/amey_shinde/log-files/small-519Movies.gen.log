@@ -1,0 +1,64 @@
+Layer itlab_small-519Movies_same_movie_rating.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):16.01
+	Number of Node:64
+	Number of Edge:253
+	Number of Connected Component:8
+
+Layer itlab_small-519Movies_similar_movie_rating.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):16.47
+	Number of Node:64
+	Number of Edge:862
+	Number of Connected Component:3
+
+Layer itlab_small-519Movies_similarity_in_movie_genre.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):19.07
+	Number of Node:64
+	Number of Edge:862
+	Number of Connected Component:3
+
+Layer itlab_small-519Movies_same_movie_year.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):18.81
+	Number of Node:64
+	Number of Edge:116
+	Number of Connected Component:15
+
+Layer itlab_small-519Movies_movies_in_a_5year_period.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):19.3
+	Number of Node:64
+	Number of Edge:115
+	Number of Connected Component:3
+
+Layer itlab_small-519Movies_similar_movie_genre.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):19.23
+	Number of Node:64
+	Number of Edge:1686
+	Number of Connected Component:1
+
+Layer itlab_small-519Movies_movies_in_same_decade.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/IMDb/layers_generated/
+	Generation Time(in second):17.21
+	Number of Node:64
+	Number of Edge:656
+	Number of Connected Component:5
+
+Layer Generation is Successful.

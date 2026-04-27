@@ -1,0 +1,55 @@
+Layer itlab_VLDBPapers_2004-2006_same_conference.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/DBLP/layers_generated/
+	Generation Time(in second):16.91
+	Number of Node:427
+	Number of Edge:90951
+	Number of Connected Component:1
+
+Layer itlab_VLDBPapers_2004-2006_similar_conference.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/DBLP/layers_generated/
+	Generation Time(in second):67.72
+	Number of Node:427
+	Number of Edge:0
+	Number of Connected Component:0
+
+Layer itlab_VLDBPapers_2004-2006_similar_author.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/DBLP/layers_generated/
+	Generation Time(in second):20.29
+	Number of Node:427
+	Number of Edge:90936
+	Number of Connected Component:1
+
+Layer itlab_VLDBPapers_2004-2006_same_time_period.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/DBLP/layers_generated/
+	Generation Time(in second):18.45
+	Number of Node:427
+	Number of Edge:90951
+	Number of Connected Component:1
+
+Layer itlab_VLDBPapers_2004-2006_different_time_period.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/DBLP/layers_generated/
+	Generation Time(in second):18.37
+	Number of Node:427
+	Number of Edge:70687
+	Number of Connected Component:1
+
+Layer itlab_VLDBPapers_2004-2006_similar_day.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/DBLP/layers_generated/
+	Generation Time(in second):19.69
+	Number of Node:427
+	Number of Edge:23551
+	Number of Connected Component:15
+
+Layer Generation is Successful.

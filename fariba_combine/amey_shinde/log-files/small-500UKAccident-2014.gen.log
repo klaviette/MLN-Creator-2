@@ -1,0 +1,109 @@
+Layer itlab_small-500UKAccident-2014_same_light_condition.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):17.64
+	Number of Node:500
+	Number of Edge:73422
+	Number of Connected Component:5
+
+Layer itlab_small-500UKAccident-2014_difference_in_no_of_casualties.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):16.75
+	Number of Node:500
+	Number of Edge:80049
+	Number of Connected Component:6
+
+Layer itlab_small-500UKAccident-2014_difference_in_road_type.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):17.16
+	Number of Node:500
+	Number of Edge:51201
+	Number of Connected Component:1
+
+Layer itlab_small-500UKAccident-2014_difference_in_day_of_week.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):16.73
+	Number of Node:500
+	Number of Edge:12090
+	Number of Connected Component:1
+
+Layer itlab_small-500UKAccident-2014_difference_in_number_of_vehicles.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):16.15
+	Number of Node:500
+	Number of Edge:46092
+	Number of Connected Component:2
+
+Layer itlab_small-500UKAccident-2014_difference_in_speed_limit.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):16.49
+	Number of Node:500
+	Number of Edge:87790
+	Number of Connected Component:1
+
+Layer itlab_small-500UKAccident-2014_distance_between_accidents.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):16.54
+	Number of Node:500
+	Number of Edge:374
+	Number of Connected Component:81
+
+Layer itlab_small-500UKAccident-2014_same_date_of_accident_occurance.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):17.97
+	Number of Node:500
+	Number of Edge:4092
+	Number of Connected Component:31
+
+Layer itlab_small-500UKAccident-2014_different_date_of_accident_occurance.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):19.25
+	Number of Node:500
+	Number of Edge:4092
+	Number of Connected Component:31
+
+Layer itlab_small-500UKAccident-2014_time_of_accident_occurance.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):18.94
+	Number of Node:500
+	Number of Edge:81790
+	Number of Connected Component:1
+
+Layer itlab_small-500UKAccident-2014_same_gap_between_accident_occurance_time.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):17.32
+	Number of Node:500
+	Number of Edge:122265
+	Number of Connected Component:1
+
+Layer itlab_small-500UKAccident-2014_different_gap_between_accident_occurance_time.net Generation is Initiated.
+Done.
+Information Regarding the Generated Layer File:
+	Destination Folder:.../C:/Users/hossa/Desktop/fariba_combine/amey_shinde/UKAccident/layers_generated/
+	Generation Time(in second):17.01
+	Number of Node:500
+	Number of Edge:27622
+	Number of Connected Component:1
+
+Layer Generation is Successful.
