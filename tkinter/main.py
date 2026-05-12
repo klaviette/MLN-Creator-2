@@ -166,11 +166,33 @@ def get_selected_PK():
         messagebox.showerror("Error", f"Layer generation failed:\n{result.stderr}")
 
 # ── Root window ───────────────────────────────────────────────────────────────
+# Must be set before Tk() so Windows groups the taskbar entry under our app ID
+if sys.platform == "win32":
+    import ctypes
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("MLNCreator.MLNLayerCreator")
+
 root = tk.Tk()
 root.title("MLN Layer Creator")
 root.configure(bg=BG)
 root.geometry("1040x820")
 root.minsize(860, 680)
+
+_ico_path = os.path.join(os.path.dirname(__file__), "assets", "icons", "MLNC_LOGO-export.ico")
+if sys.platform == "win32":
+    import ctypes
+    _ico_path_abs = os.path.abspath(_ico_path)
+    # Title bar icon via tkinter (reliable for ICON_SMALL)
+    root.iconbitmap(_ico_path_abs)
+    # Taskbar icon via WM_SETICON using the real HWND from tkinter
+    root.update_idletasks()
+    _hwnd = ctypes.windll.user32.GetAncestor(root.winfo_id(), 2)  # GA_ROOT = 2
+    _LR_LOADFROMFILE = 0x00000010
+    _IMAGE_ICON = 1
+    _big = ctypes.windll.user32.LoadImageW(None, _ico_path_abs, _IMAGE_ICON, 0, 0, _LR_LOADFROMFILE)
+    ctypes.windll.user32.SendMessageW(_hwnd, 0x0080, 1, _big)  # WM_SETICON, ICON_BIG
+else:
+    _icon_img = tk.PhotoImage(file=os.path.join(os.path.dirname(__file__), "assets", "icons", "MLNC_LOGO-export.png"))
+    root.iconphoto(True, _icon_img)
 
 # ── Header ────────────────────────────────────────────────────────────────────
 header = tk.Frame(root, bg=PRIMARY, height=64)
@@ -410,5 +432,13 @@ btn_frame = tk.Frame(body, bg=BG)
 btn_frame.pack(pady=(8, 28))
 btn_create = make_button(btn_frame, "Create Network Layer  \u2192", get_selected_PK)
 btn_create.pack()
+
+def _bind_scroll_to_all(widget):
+    if not isinstance(widget, (tk.Listbox, tk.Text)):
+        widget.bind("<MouseWheel>", _mousewheel)
+    for child in widget.winfo_children():
+        _bind_scroll_to_all(child)
+
+_bind_scroll_to_all(body)
 
 root.mainloop()
