@@ -10,10 +10,10 @@ def confgen(
     input_file_name = os.path.basename(input_file_path)
     input_dir = os.path.dirname(os.path.abspath(input_file_path))
 
-    # auto-detect the MLN_USR (amey_shinde) directory from the path
+    # auto-detect the MLN_USR (datasets) directory from the path
     parts = input_dir.replace("\\", "/").split("/")
-    if "amey_shinde" in parts:
-        mln_usr = "/".join(parts[:parts.index("amey_shinde") + 1])
+    if "datasets" in parts:
+        mln_usr = "/".join(parts[:parts.index("datasets") + 1])
     else:
         mln_usr = input_dir
 
@@ -28,7 +28,7 @@ def confgen(
     with open(output_path, "w") as file:
         file.write(f"INPUT_DIRECTORY=$MLN_USR/{input_dir_rel}\n")
         file.write(f"OUTPUT_DIRECTORY=$MLN_USR/{output_dir_rel}\n")
-        file.write("USERNAME=itlab\n\n")
+        file.write("USERNAME=default\n\n")
         file.write("BEGIN_LAYER\n")
         file.write(f"INPUT_FILE_NAME= {input_file_name}\n")
         file.write(f"LAYER_NAME={layer_name}\n")

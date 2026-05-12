@@ -156,7 +156,7 @@ def get_selected_PK():
     preview_text.config(state=tk.DISABLED)
 
     cal_gen_script = os.path.join(
-        os.path.dirname(__file__), '..', 'fariba_combine', 'cal_gen_mod_change_directory.py'
+        os.path.dirname(__file__), '..', 'main', 'cal_gen_mod_change_directory.py'
     )
     result = subprocess.run([sys.executable, cal_gen_script, output_path], capture_output=True, text=True)
 

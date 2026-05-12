@@ -1,0 +1,18 @@
+# Generated config files
+*.gen
+
+# Generated MLN layer network files
+*.net
+
+# Generated log files
+*.log
+*.gen.log
+
+# Generated binary hash table / pickle files
+*.bin
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
