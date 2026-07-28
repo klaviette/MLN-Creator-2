@@ -26,15 +26,13 @@ if __name__ == '__main__':
 import os
 import sys
 import multiprocessing
+import pathlib
 
 # find the absolute path of the current file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # add the HOMLN directory to the system path
 sys.path.append(os.path.join(BASE_DIR, "HOMLN"))
-
-# define the path to the MLN_USR using the absolute path
-MLN_USR = os.path.join(BASE_DIR, "datasets")
 
 # accept a config file path as a command-line argument, otherwise use the default
 if len(sys.argv) > 1:
@@ -47,6 +45,19 @@ else:
         "data_files",
         "unit_price.gen" # default fallback
     )
+
+# Derive MLN_USR from the config file's location rather than the script location.
+# Walk up the directory tree and stop at the first folder named "datasets".
+# This works whether the .gen file lives in the bundled datasets/ folder or in
+# a workspace folder like ~/MLNCreator/datasets/.
+_config_path = pathlib.Path(configfilename).resolve()
+MLN_USR = None
+for _parent in _config_path.parents:
+    if _parent.name == "datasets":
+        MLN_USR = str(_parent)
+        break
+if MLN_USR is None:
+    MLN_USR = os.path.join(BASE_DIR, "datasets")  # original fallback
 
 import HOMLN.layer_generator
 if __name__ == '__main__':

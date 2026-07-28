@@ -2,10 +2,22 @@ import tkinter as tk
 import sys
 import os
 import subprocess
+import pathlib
+import threading
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'scripts'))
+from import_manager import ensure_dependencies
 from utils import get_file_labels, get_filename, get_similarity_metric_options, get_feature_type_options
 from confgen import confgen
 from tkinter import filedialog, messagebox
+
+# ── Workspace folder ─────────────────────────────────────────────────────────────
+WORKSPACE       = pathlib.Path.home() / "MLNCreator"
+WS_DATASETS     = WORKSPACE / "datasets"     # CSV source files
+WS_INTER_LAYERS = WORKSPACE / "inter_layers" # Tab-2 set-operation results
+
+_ws_first_run = not WORKSPACE.exists()
+for _d in (WS_DATASETS, WS_INTER_LAYERS):
+    _d.mkdir(parents=True, exist_ok=True)
 
 # ── Palette ───────────────────────────────────────────────────────────────────
 BG       = "#F0F2F5"
@@ -91,11 +103,29 @@ def upload_file():
     global file_path
     fp = filedialog.askopenfilename(
         title="Select a CSV File",
+        initialdir=str(WS_DATASETS),
         filetypes=[("CSV Files", "*.csv")],
     )
     if not fp:
         return
-    file_path = fp
+
+    # If the CSV is outside the workspace, copy it into the standard structure:
+    #   ~/MLNCreator/datasets/<dataset_name>/data_files/<file>.csv
+    # This ensures confgen places the .gen and layers_generated/ inside the workspace.
+    fp_path = pathlib.Path(fp)
+    try:
+        fp_path.relative_to(WS_DATASETS)
+        file_path = fp   # already inside workspace
+    except ValueError:
+        import shutil as _shutil
+        dataset_name = fp_path.stem
+        ws_data_dir  = WS_DATASETS / dataset_name / "data_files"
+        ws_data_dir.mkdir(parents=True, exist_ok=True)
+        ws_copy = ws_data_dir / fp_path.name
+        if not ws_copy.exists():
+            _shutil.copy2(fp, ws_copy)
+        file_path = str(ws_copy)
+
     cols = get_file_labels(file_path)
 
     listbox.delete(0, tk.END)
@@ -113,7 +143,11 @@ def upload_file():
         listbox5.insert(tk.END, f)
 
     label_file.config(text=get_filename(file_path), fg=TEXT)
-    file_status.config(text="File loaded successfully", fg=SUCCESS)
+    in_ws = pathlib.Path(file_path).is_relative_to(WS_DATASETS)
+    file_status.config(
+        text="File loaded successfully" + (" (copied to workspace)" if in_ws and pathlib.Path(fp) != pathlib.Path(file_path) else ""),
+        fg=SUCCESS,
+    )
 
 def get_selected_PK():
     primary_keys = [listbox.get(i) for i in listbox.curselection()]
@@ -172,10 +206,66 @@ if sys.platform == "win32":
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("MLNCreator.MLNLayerCreator")
 
 root = tk.Tk()
+root.withdraw()  # hide until dependency check finishes
 root.title("MLN Layer Creator")
 root.configure(bg=BG)
 root.geometry("1040x820")
 root.minsize(860, 680)
+
+# ── Dependency-check splash ────────────────────────────────────────────────
+_splash = tk.Toplevel(root)
+_splash.title("MLN Creator — Starting")
+_splash.configure(bg="#1D2939")
+_splash.resizable(False, False)
+_splash.geometry("420x150")
+_splash.grab_set()
+# centre on screen
+root.update_idletasks()
+_sw = _splash.winfo_screenwidth()
+_sh = _splash.winfo_screenheight()
+_splash.geometry(f"420x150+{(_sw-420)//2}+{(_sh-150)//2}")
+
+tk.Label(_splash, text="MLN Layer Creator",
+         font=("Segoe UI", 15, "bold"), fg="white", bg="#1D2939").pack(pady=(22, 6))
+_dep_lbl = tk.Label(_splash, text="Checking dependencies…",
+                    font=("Segoe UI", 10), fg="#A5B4FC", bg="#1D2939", wraplength=380)
+_dep_lbl.pack(pady=(0, 22))
+
+import queue as _queue
+_dep_q: _queue.Queue = _queue.Queue()
+_dep_failed: list = []
+
+def _dep_thread() -> None:
+    failed = ensure_dependencies(log=lambda m: _dep_q.put(("log", m)))
+    _dep_q.put(("done", failed))
+
+def _poll_dep() -> None:
+    """Drains the queue from the main thread — safe to call inside wait_window."""
+    try:
+        while True:
+            kind, data = _dep_q.get_nowait()
+            if kind == "log":
+                _dep_lbl.config(text=data)
+            elif kind == "done":
+                _dep_failed.extend(data)
+                _splash.destroy()       # ends wait_window below
+                root.deiconify()
+                if _dep_failed:
+                    messagebox.showwarning(
+                        "Missing Dependencies",
+                        "The following packages could not be installed:\n\n"
+                        + "\n".join(f"  \u2022 {p}" for p in _dep_failed)
+                        + "\n\nSome features may not work.\n"
+                        "Run manually:\n  pip install " + " ".join(_dep_failed),
+                    )
+                return  # stop polling
+    except _queue.Empty:
+        pass
+    root.after(100, _poll_dep)  # check again in 100 ms
+
+threading.Thread(target=_dep_thread, daemon=True).start()
+_poll_dep()                     # start polling in main thread
+root.wait_window(_splash)       # local event loop; exits when splash is destroyed
 
 _ico_path = os.path.join(os.path.dirname(__file__), "assets", "icons", "MLNC_LOGO-export.ico")
 if sys.platform == "win32":
@@ -240,6 +330,29 @@ TAB_FG_ACT  = PRIMARY
 tabbar = tk.Frame(root, bg=TAB_BG, height=40)
 tabbar.pack(fill="x")
 tabbar.pack_propagate(False)
+
+# ── Workspace status bar (packed before tab_content so it anchors to the bottom) ─
+_ws_bar = tk.Frame(root, bg="#E8EAED")
+_ws_bar.pack(fill="x", side="bottom")
+tk.Frame(_ws_bar, bg=BORDER, height=1).pack(fill="x")
+_ws_inner = tk.Frame(_ws_bar, bg="#E8EAED")
+_ws_inner.pack(fill="x", padx=12, pady=4)
+tk.Label(_ws_inner, text="Workspace:", font=F_SMALL, fg=SUBTEXT, bg="#E8EAED").pack(side="left")
+_ws_path_lbl = tk.Label(
+    _ws_inner, text=str(WORKSPACE), font=F_SMALL, fg=PRIMARY,
+    bg="#E8EAED", cursor="hand2",
+)
+_ws_path_lbl.pack(side="left", padx=(4, 0))
+
+def _open_workspace(e=None):
+    if sys.platform == "win32":
+        os.startfile(str(WORKSPACE))
+    elif sys.platform == "darwin":
+        subprocess.Popen(["open", str(WORKSPACE)])
+    else:
+        subprocess.Popen(["xdg-open", str(WORKSPACE)])
+
+_ws_path_lbl.bind("<Button-1>", _open_workspace)
 
 tab_content = tk.Frame(root, bg=BG)
 tab_content.pack(fill="both", expand=True)
@@ -530,6 +643,7 @@ def _refresh_net_status():
 def _add_net_files():
     fps = filedialog.askopenfilenames(
         title="Select .NET Layer Files",
+        initialdir=str(WS_DATASETS),
         filetypes=[("Network Files", "*.net"), ("All Files", "*.*")],
     )
     for fp in fps:
@@ -603,7 +717,7 @@ tk.Label(s3, text="Output directory:", font=F_H2, fg=TEXT, bg=CARD, anchor="w").
 out_dir_row2 = tk.Frame(s3, bg=CARD)
 out_dir_row2.pack(fill="x", pady=(4, 0))
 
-out_dir_var = tk.StringVar(value="")
+out_dir_var = tk.StringVar(value=str(WS_INTER_LAYERS))
 tk.Entry(
     out_dir_row2, textvariable=out_dir_var, font=F_BODY, fg=TEXT, bg="#F8FAFC",
     relief="flat", bd=0,
@@ -612,7 +726,8 @@ tk.Entry(
 ).pack(side="left", ipady=5)
 
 def _browse_out_dir():
-    d = filedialog.askdirectory(title="Select Output Directory")
+    d = filedialog.askdirectory(title="Select Output Directory",
+                                initialdir=str(WS_INTER_LAYERS))
     if d:
         out_dir_var.set(d)
 
@@ -751,5 +866,20 @@ if _header_logo_frames and _logo_lbl is not None:
         _logo_lbl.config(image=_header_logo_frames[_spin_idx[0]])
         root.after(40, _spin_logo)   # 40 ms → 25 fps, ~1.4 s per revolution
     root.after(40, _spin_logo)
+
+# First-run notice
+if _ws_first_run:
+    def _first_run_msg():
+        messagebox.showinfo(
+            "Workspace Created",
+            f"A workspace folder was created at:\n\n"
+            f"  {WORKSPACE}\n\n"
+            f"Subfolders:\n"
+            f"  \u2022 datasets\u2002\u2002\u2002\u2002 \u2014 place your CSV source files here\n"
+            f"  \u2022 inter_layers \u2014 set-operation results are saved here\n\n"
+            f"Click the path in the status bar at the bottom of the\n"
+            f"window to open the folder.",
+        )
+    root.after(300, _first_run_msg)
 
 root.mainloop()
