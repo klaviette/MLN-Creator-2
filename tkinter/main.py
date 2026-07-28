@@ -195,13 +195,23 @@ else:
     root.iconphoto(True, _icon_img)
 
 # ── Header ────────────────────────────────────────────────────────────────────
-# Load logo for the header bar (40×40); try Pillow first, fall back to subsample
+# Load logo; pre-generate 36 rotated frames for the spin animation (needs Pillow)
 _logo_path = os.path.join(os.path.dirname(__file__), "assets", "icons", "MLNC_LOGO-export.png")
+_header_logo_frames: list = []
 _header_logo = None
+_logo_lbl    = None   # Label reference needed by the animation callback
+
 try:
     from PIL import Image, ImageTk as _ITK
-    _pil = Image.open(_logo_path).resize((40, 40), Image.LANCZOS)
-    _header_logo = _ITK.PhotoImage(_pil)
+    _pr  = tuple(int(PRIMARY[i:i+2], 16) for i in (1, 3, 5))   # #4361EE → (67,97,238)
+    _bg  = Image.new("RGBA", (40, 40), _pr + (255,))
+    _src = Image.open(_logo_path).convert("RGBA").resize((40, 40), Image.LANCZOS)
+    for _ang in range(0, 360, 1):           # 36 frames → 1 revolution
+        _rot = _src.rotate(-_ang, expand=False)
+        _frm = _bg.copy()
+        _frm.alpha_composite(_rot)
+        _header_logo_frames.append(_ITK.PhotoImage(_frm.convert("RGB")))
+    _header_logo = _header_logo_frames[0]
 except Exception:
     try:
         _raw = tk.PhotoImage(file=_logo_path)
@@ -214,7 +224,8 @@ header = tk.Frame(root, bg=PRIMARY, height=64)
 header.pack(fill="x")
 header.pack_propagate(False)
 if _header_logo:
-    tk.Label(header, image=_header_logo, bg=PRIMARY).pack(side="left", padx=(16, 0), pady=12)
+    _logo_lbl = tk.Label(header, image=_header_logo, bg=PRIMARY)
+    _logo_lbl.pack(side="left", padx=(16, 0), pady=12)
 tk.Label(header, text="MLN Layer Creator", font=F_TITLE, fg="white", bg=PRIMARY).pack(
     side="left", padx=(12 if _header_logo else 24, 0), pady=16)
 tk.Label(header, text="Multi-Layer Network Creation Tool",
@@ -731,5 +742,14 @@ def _bind_scroll2(widget):
     for child in widget.winfo_children():
         _bind_scroll2(child)
 _bind_scroll2(body2)
+
+# ── Spin the header logo ──────────────────────────────────────────────────────
+if _header_logo_frames and _logo_lbl is not None:
+    _spin_idx = [0]
+    def _spin_logo():
+        _spin_idx[0] = (_spin_idx[0] + 1) % len(_header_logo_frames)
+        _logo_lbl.config(image=_header_logo_frames[_spin_idx[0]])
+        root.after(40, _spin_logo)   # 40 ms → 25 fps, ~1.4 s per revolution
+    root.after(40, _spin_logo)
 
 root.mainloop()
