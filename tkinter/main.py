@@ -195,10 +195,28 @@ else:
     root.iconphoto(True, _icon_img)
 
 # ── Header ────────────────────────────────────────────────────────────────────
+# Load logo for the header bar (40×40); try Pillow first, fall back to subsample
+_logo_path = os.path.join(os.path.dirname(__file__), "assets", "icons", "MLNC_LOGO-export.png")
+_header_logo = None
+try:
+    from PIL import Image, ImageTk as _ITK
+    _pil = Image.open(_logo_path).resize((40, 40), Image.LANCZOS)
+    _header_logo = _ITK.PhotoImage(_pil)
+except Exception:
+    try:
+        _raw = tk.PhotoImage(file=_logo_path)
+        _factor = max(1, _raw.width() // 40)
+        _header_logo = _raw.subsample(_factor, _factor)
+    except Exception:
+        pass
+
 header = tk.Frame(root, bg=PRIMARY, height=64)
 header.pack(fill="x")
 header.pack_propagate(False)
-tk.Label(header, text="MLN Layer Creator", font=F_TITLE, fg="white", bg=PRIMARY).pack(side="left", padx=24, pady=16)
+if _header_logo:
+    tk.Label(header, image=_header_logo, bg=PRIMARY).pack(side="left", padx=(16, 0), pady=12)
+tk.Label(header, text="MLN Layer Creator", font=F_TITLE, fg="white", bg=PRIMARY).pack(
+    side="left", padx=(12 if _header_logo else 24, 0), pady=16)
 tk.Label(header, text="Multi-Layer Network Creation Tool",
          font=F_SMALL, fg="#A5B4FC", bg=PRIMARY).pack(side="left", pady=22)
 
