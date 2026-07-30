@@ -69,6 +69,14 @@ Click **Create Network Layer** to generate a `.gen` config file and invoke the l
 
 ---
 
+## Attribution
+
+This tool is based on concepts and source code from the following dissertation:
+
+> Irany, F. A. (2024). *Large scale data analysis with application to computational epidemiology and network science* (Doctoral dissertation). University of North Texas.
+
+---
+
 ## Project Structure
 
 ```
